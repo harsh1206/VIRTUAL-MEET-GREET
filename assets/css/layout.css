@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+  height: 80%; 
+  background-color:black;
+  overflow: hidden;
+}
+
+ body #layout-main {
+    height: 100%; 
+}
+
+ 
