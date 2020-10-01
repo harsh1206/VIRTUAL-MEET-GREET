@@ -4,6 +4,9 @@ const app = express();
 const expressLayouts = require('express-ejs-layouts');
 
 
+const chatServer = require("http").Server(app);
+const chatSockets = require("./config/chat_sockets").chatSockets(chatServer);
+
 // set up the view engine
 app.set('view engine', 'ejs');
 app.set('views', './views');
