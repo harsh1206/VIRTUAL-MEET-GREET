@@ -1,55 +1,104 @@
-.login-container{
-    margin-top: 5%;
-    margin-bottom: 5%;
+body {
+    font-family: "Lato", sans-serif;
 }
-.login-logo{
-    position: relative;
-    margin-left: -41.5%;
+
+
+
+.main-head{
+    height: 200px;
+    background: #FFF;
+
+   
 }
-.login-logo img{
-    position: absolute;
-    width: 20%;
-    margin-top: 19%;
-    background: #282726;
-    border-radius: 4.5rem;
-    padding: 5%;
+
+.sidenav {
+    height: 100%;
+    background-color: #000;
+
+    padding-top: 20px;
+
+   
 }
-.login-form-1{
-    padding: 9%;
-    background:#29b0ff;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+.description{
+     height: 90%;
+    background-color: #000;
+    
+   
+    padding-left: 90px;
+    color: white;
+    font-family: 'Montserrat';
+    font-weight: 200;
+   
 }
-.login-form-1 h3{
-    text-align: center;
-    margin-bottom:12%;
-    color:#fff;
+
+.main {
+    padding: 0px 10px;
+    position: relative !important;
+    left: 18% !important;
+    bottom: 20% !important;
+
 }
-.login-form-2{
-    padding: 9%;
-    background: #f05837;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
 }
-.login-form-2 h3{
-    text-align: center;
-    margin-bottom:12%;
+
+@media screen and (max-width: 450px) {
+    .login-form{
+        margin-top: 10%;
+
+
+    }
+
+    .register-form{
+        margin-top: 10%;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .main{
+        margin-left: 40%; 
+    }
+
+    .sidenav{
+        width: 50%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+    }
+
+    .login-form{
+        margin-top: 80%;
+
+    }
+
+    .register-form{
+        margin-top: 20%;
+    }
+}
+
+
+.login-main-text{
+    margin-top: 20%;
+    padding: 60px;
     color: #fff;
+  
+    text-align: center;
+
+      font-size: 40px;
+
 }
-.btnSubmit{
-    font-weight: 600;
-    width: 50%;
-    color: #282726;
-    background-color: #fff;
-    border: none;
-    border-radius: 1.5rem;
-    padding:2%;
-    text-align: center !important;
+
+.login-main-text h1{
+    font-weight: 300;
+    font-family: 'Lilita One';
+      font-size: 70px;
+
 }
-.btnForgetPwd{
+
+
+.btn-black{
+    background-color: #000 !important;
     color: #fff;
-    font-weight: 600;
-    text-decoration: none;
-}
-.btnForgetPwd:hover{
-    text-decoration:none;
-    color:#fff;
 }

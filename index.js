@@ -1,15 +1,103 @@
-const express = require("express");
-const PORT = 3000;
-const app = express();
+const path = require('path');
+const http = require('http');
+const express = require('express');
+const socketio = require("socket.io");
+const formatMessage = require("./utils/messages");
+const {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers,
+} = require("./utils/user");
+
 const expressLayouts = require('express-ejs-layouts');
 
 
-const chatServer = require("http").Server(app);
-const chatSockets = require("./config/chat_sockets").chatSockets(chatServer);
+
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
+
+// const express = require("express");
+const PORT = 3000;
+
+// const app = express();
+// const http = require('http');
+// const socketio = require("socket.io");
+// const server = http.createServer(app);
+// const io = socketio(server);
+
 
 // set up the view engine
 app.set('view engine', 'ejs');
 app.set('views', './views');
+
+
+
+const botName = "ViMeet Bot";
+
+// Run when client connects
+io.on("connection", (socket) => {
+  socket.on("joinRoom", ({ username, room }) => {
+    const user = userJoin(socket.id, username, room);
+
+    socket.join(user.room);
+
+    // Welcome current user
+    socket.emit("message", formatMessage(botName, "Welcome to ViMeet !"));
+
+    // Broadcast when a user connects
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        "message",
+        formatMessage(botName, `${user.username} has joined the chat`)
+      );
+
+   
+    // Send users and room info
+    io.to(user.room).emit("roomUsers", {
+      room: user.room,
+      users: getRoomUsers(user.room),
+    });
+  });
+
+  // Listen for chatMessage
+  socket.on("chatMessage", (msg) => {
+    const user = getCurrentUser(socket.id);
+
+    io.to(user.room).emit("message", formatMessage(user.username, msg));
+  });
+  
+  // For start Questions
+  socket.on("start",(question)=>{
+     
+    const user = getCurrentUser(socket.id);
+
+    // Send users and room info
+    io.to(user.room).emit('Start_Session',question);
+
+  })
+  // Runs when client disconnects
+  socket.on("disconnect", () => {
+    const user = userLeave(socket.id);
+
+    if (user) {
+      io.to(user.room).emit(
+        "message",
+        formatMessage(botName, `${user.username} has left the chat`)
+      );
+
+      // Send users and room info
+      io.to(user.room).emit("roomUsers", {
+        room: user.room,
+        users: getRoomUsers(user.room),
+      });
+    }
+  });
+});
+
+
 
 // using static files
 app.use(express.static("assets"));
@@ -25,7 +113,7 @@ app.set("layout extractScripts", true);
 // use express router
 app.use('/', require('./routes'));
 
-app.listen(PORT, function (err) {
+server.listen(PORT, function (err) {
   
     if(err) {
        console.log("error in starting the server");
