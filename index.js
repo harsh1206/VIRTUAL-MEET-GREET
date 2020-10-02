@@ -73,6 +73,11 @@ io.on("connection", (socket) => {
   socket.on("start",(question)=>{
      
     const user = getCurrentUser(socket.id);
+    
+    io.to(user.room).emit(
+      "message",
+      formatMessage(botName, `You have a new question`)
+    );
 
     // Send users and room info
     io.to(user.room).emit('Start_Session',question);
